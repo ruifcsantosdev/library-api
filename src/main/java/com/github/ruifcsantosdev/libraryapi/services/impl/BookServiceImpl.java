@@ -52,11 +52,11 @@ public class BookServiceImpl implements BookService {
 
         List<Book> content = books.getNumberOfElements() == 0 ? Collections.emptyList() : books.getContent();
 
-        PagedResponse response = new PagedResponse(
+        PagedResponse response = new PagedResponse<>(
                 content,
                 books.getNumber(),
                 books.getSize(),
-                books.getNumberOfElements(),
+                books.getTotalElements(),
                 books.getTotalPages(),
                 books.isLast()
         );
@@ -79,11 +79,11 @@ public class BookServiceImpl implements BookService {
 
         List<Book> content = books.getNumberOfElements() == 0 ? Collections.emptyList() : books.getContent();
 
-        PagedResponse response = new PagedResponse(
+        PagedResponse response = new PagedResponse<>(
                 content,
                 books.getNumber(),
                 books.getSize(),
-                books.getNumberOfElements(),
+                books.getTotalElements(),
                 books.getTotalPages(),
                 books.isLast()
         );
@@ -94,6 +94,26 @@ public class BookServiceImpl implements BookService {
     // TODO
     @Override
     public PagedResponse<Book> getBooksByCategory(int categoryId, int page, int size) {
+        /*validatePagination(page, size);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "name");
+
+        Page<Book> books = this.bookRepository.findByCategories(categoryId, pageable);
+
+        System.out.println("AQUI");
+
+        List<Book> content = books.getNumberOfElements() == 0 ? Collections.emptyList() : books.getContent();
+
+        PagedResponse response = new PagedResponse<>(
+                content,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isLast()
+        );
+
+        return response;*/
         return null;
     }
 

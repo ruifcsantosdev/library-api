@@ -20,7 +20,7 @@ public class PagedResponse<T> {
     }
 
     public PagedResponse(List<T> content, int page, int size, long totalElements, int totalPages, boolean last) {
-        this.content = content;
+        setContent(content);
         this.page = page;
         this.size = size;
         this.totalElements = totalElements;

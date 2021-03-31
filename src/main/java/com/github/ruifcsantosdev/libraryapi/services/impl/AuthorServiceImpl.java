@@ -37,11 +37,11 @@ public class AuthorServiceImpl implements AuthorService {
 
         List<Author> content = authors.getNumberOfElements() == 0 ? Collections.emptyList() : authors.getContent();
 
-        PagedResponse response = new PagedResponse(
+        PagedResponse response = new PagedResponse<>(
               content,
               authors.getNumber(),
               authors.getSize(),
-              authors.getNumberOfElements(),
+              authors.getTotalElements(),
               authors.getTotalPages(),
               authors.isLast()
         );

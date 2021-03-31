@@ -41,4 +41,9 @@ public class Book {
         this.isbn = isbn;
         this.numberOfPages = numberOfPages;
     }
+
+    @JsonIgnore
+    public Author getAuthor() {
+        return author;
+    }
 }
