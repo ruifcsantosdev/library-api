@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -20,4 +22,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             , nativeQuery = true)*/
     @Query(value = "SELECT b FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
     Page<Book> findByCategories(@Param("categoryId") Integer categoryId, Pageable pageable);
+
+    Optional<Book> findByTitleOrIsbn(String title, String isbn);
 }

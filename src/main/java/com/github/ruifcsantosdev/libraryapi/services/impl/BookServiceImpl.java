@@ -12,6 +12,7 @@ import com.github.ruifcsantosdev.libraryapi.repositories.AuthorRepository;
 import com.github.ruifcsantosdev.libraryapi.repositories.BookRepository;
 import com.github.ruifcsantosdev.libraryapi.repositories.CategoryRepository;
 import com.github.ruifcsantosdev.libraryapi.services.BookService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -95,7 +96,7 @@ public class BookServiceImpl implements BookService {
     public PagedResponse<Book> getBooksByCategory(int categoryId, int page, int size) {
         validatePagination(page, size);
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "name");
 
         Page<Book> books = this.bookRepository.findByCategories(categoryId, pageable);
 
@@ -131,28 +132,28 @@ public class BookServiceImpl implements BookService {
                         () -> new ResourceNotFoundException("The author doesn't exists!", "Author Id", bookCreateRequest.getAuthorId())
                 );
 
+        Optional<Book> isBookExists = this.bookRepository.findByTitleOrIsbn(bookCreateRequest.getTitle(), bookCreateRequest.getIsbn());
+
+        if(isBookExists.isPresent()) {
+            throw new BadRequestException("Book is already exists");
+        }
+
         List<Category> categories = new ArrayList<>();
 
         for (Integer categoryId : bookCreateRequest.getCategories()){
             Optional<Category> category = categoryRepository.findById(categoryId);
-
             if(category.isPresent()) {
                 categories.add(category.get());
             }
         }
 
-        // TODO -> Implement AutoMapper
-        Book book = new Book();
+        ModelMapper modelMapper = new ModelMapper();
+        Book book = modelMapper.map(bookCreateRequest, Book.class);
         book.setAuthor(author);
         book.setCategories(categories);
-        book.setIsbn(bookCreateRequest.getIsbn());
-        book.setResume(bookCreateRequest.getResume());
-        book.setTitle(bookCreateRequest.getTitle());
-        book.setNumberOfPages(bookCreateRequest.getNumberOfPages());
 
         Book newBook = this.bookRepository.save(book);
-
-        // TODO -> Change Response
+        
         return newBook;
     }
 
