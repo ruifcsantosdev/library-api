@@ -8,6 +8,7 @@ import com.github.ruifcsantosdev.libraryapi.payload.input.AuthorUpdateRequest;
 import com.github.ruifcsantosdev.libraryapi.payload.output.PagedResponse;
 import com.github.ruifcsantosdev.libraryapi.repositories.AuthorRepository;
 import com.github.ruifcsantosdev.libraryapi.services.AuthorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,16 +62,10 @@ public class AuthorServiceImpl implements AuthorService {
     // TODO
     @Override
     public Author addAuthor(AuthorCreateRequest authorCreateRequest) {
-        Author author = new Author();
-
-        author.setFirstName(authorCreateRequest.getFirstName());
-        author.setLastName(authorCreateRequest.getLastName());
-        author.setResume(authorCreateRequest.getResume());
-        author.setBooks(new ArrayList<>());
-        author.setGender(authorCreateRequest.getGender());
+        ModelMapper modelMapper = new ModelMapper();
+        Author author = modelMapper.map(authorCreateRequest, Author.class);
 
         Author newAuthor = this.authorRepository.save(author);
-
         return newAuthor;
     }
 

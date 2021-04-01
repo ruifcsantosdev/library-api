@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -32,6 +33,7 @@ public class Category {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+        this.books = new ArrayList<>();
     }
 
 

@@ -8,6 +8,7 @@ import com.github.ruifcsantosdev.libraryapi.payload.input.CategoryUpdateRequest;
 import com.github.ruifcsantosdev.libraryapi.payload.output.PagedResponse;
 import com.github.ruifcsantosdev.libraryapi.repositories.CategoryRepository;
 import com.github.ruifcsantosdev.libraryapi.services.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,18 +66,15 @@ public class CategoryServiceImpl implements CategoryService {
     public Category addCategory(CategoryCreateRequest categoryCreateRequest) {
         Optional<Category> existsCategory = this.categoryRepository.findByName(categoryCreateRequest.getName());
 
-        if(!(existsCategory.isPresent())) {
-            Category category = new Category();
-            category.setName(categoryCreateRequest.getName());
-            category.setDescription(categoryCreateRequest.getDescription());
-            category.setBooks(new ArrayList<>());
-
-            Category newCategory = this.categoryRepository.save(category);
-            return newCategory;
-        }else {
-            // TODO
-            return null;
+        if(existsCategory.isPresent()) {
+            throw new BadRequestException("Category is already exists");
         }
+
+        ModelMapper modelMapper = new ModelMapper();
+        Category category = modelMapper.map(categoryCreateRequest, Category.class);
+        Category newCategory = this.categoryRepository.save(category);
+
+        return newCategory;
 
     }
 

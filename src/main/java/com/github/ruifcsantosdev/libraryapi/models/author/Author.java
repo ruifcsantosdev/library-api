@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -39,5 +40,6 @@ public class Author {
         this.lastName = lastName;
         this.gender = gender;
         this.resume = resume;
+        this.books = new ArrayList<>();
     }
 }
