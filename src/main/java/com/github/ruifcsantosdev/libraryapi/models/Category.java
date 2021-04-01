@@ -18,9 +18,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
-
+    @Column
     private String description;
+
+    @Column
+    private String name;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -31,4 +33,6 @@ public class Category {
         this.name = name;
         this.description = description;
     }
+
+
 }

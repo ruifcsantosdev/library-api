@@ -19,15 +19,19 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column
     private String title;
 
+    @Column
     private String resume;
 
+    @Column
     private String isbn;
 
+    @Column
     private int numberOfPages;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private Author author;
 
@@ -42,8 +46,13 @@ public class Book {
         this.numberOfPages = numberOfPages;
     }
 
-    @JsonIgnore
     public Author getAuthor() {
         return author;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+
 }

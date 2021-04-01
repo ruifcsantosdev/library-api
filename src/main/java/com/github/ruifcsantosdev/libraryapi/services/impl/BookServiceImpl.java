@@ -75,7 +75,7 @@ public class BookServiceImpl implements BookService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Book> books = this.bookRepository.findByAuthor(author.getId(), pageable);
+        Page<Book> books = this.bookRepository.findBookByAuthor(author.getId(), pageable);
 
         List<Book> content = books.getNumberOfElements() == 0 ? Collections.emptyList() : books.getContent();
 
@@ -91,16 +91,13 @@ public class BookServiceImpl implements BookService {
         return response;
     }
 
-    // TODO
     @Override
     public PagedResponse<Book> getBooksByCategory(int categoryId, int page, int size) {
-        /*validatePagination(page, size);
+        validatePagination(page, size);
 
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "name");
+        Pageable pageable = PageRequest.of(page, size);
 
         Page<Book> books = this.bookRepository.findByCategories(categoryId, pageable);
-
-        System.out.println("AQUI");
 
         List<Book> content = books.getNumberOfElements() == 0 ? Collections.emptyList() : books.getContent();
 
@@ -113,8 +110,7 @@ public class BookServiceImpl implements BookService {
                 books.isLast()
         );
 
-        return response;*/
-        return null;
+        return response;
     }
 
     @Override
